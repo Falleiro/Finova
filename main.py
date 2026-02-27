@@ -43,6 +43,7 @@ async def main() -> None:
 
     async with app:
         await app.start()
+        await app.updater.start_polling(drop_pending_updates=True)
         logger.info("Telegram bot started (polling).")
 
         watcher_tasks = [
@@ -73,6 +74,7 @@ async def main() -> None:
         await asyncio.gather(*watcher_tasks, return_exceptions=True)
 
         scheduler.shutdown(wait=False)
+        await app.updater.stop()
         await app.stop()
 
     logger.info("FINOVA stopped cleanly.")
