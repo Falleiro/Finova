@@ -52,6 +52,14 @@ Telegram Bot (webhook)
 
 ```
 finova/
+├── .venv/                       ← virtual environment (never commit — add to .gitignore)
+├── Dockerfile                   ← multi-stage build for production
+├── docker-compose.yml           ← local development environment
+├── .dockerignore
+├── .gitignore
+├── .env                         ← secrets (never commit)
+├── .env.example                 ← template for secrets (safe to commit)
+├── requirements.txt
 ├── CLAUDE.md
 ├── .env                         ← secrets (never commit)
 ├── .env.example
@@ -140,7 +148,8 @@ DATABASE_URL=sqlite:///./finova.db
 
 ## 🔑 Core Rules for Claude
 
-1. **Read-only access to financial data.** Never write, transfer, or modify financial records. Only read from the Open Finance API.
+1. **Docker-first environment.** All development runs inside Docker via `docker-compose up`. Never install packages globally. If running without Docker for a quick test, use `python3 -m venv .venv`. The production environment is Railway — a container built from the `Dockerfile` in this repo.
+2. **Read-only access to financial data.** Never write, transfer, or modify financial records. Only read from the Open Finance API.
 2. **Single user system.** There is only one TELEGRAM_CHAT_ID. Never expose data to other recipients.
 3. **Async-first.** All I/O operations (API calls, DB queries, Telegram sends) must be `async/await`.
 4. **Error resilience.** Every external call must have try/except with graceful fallback and user notification.
@@ -165,16 +174,57 @@ DATABASE_URL=sqlite:///./finova.db
 
 ## 🚀 How to Run
 
-```bash
-# Install dependencies
-pip install -r requirements.txt
+### Environment Strategy
 
-# Copy and fill in secrets
+| Context | Method |
+|---|---|
+| Local development | `docker-compose up` |
+| Local testing (no Docker) | `python3 -m venv .venv` |
+| Production 24/7 | Deploy to **Railway** via GitHub |
+
+---
+
+### Local Development with Docker (recommended)
+
+```bash
+# 1. Copy and fill in your secrets
 cp .env.example .env
 
-# Run the agent
+# 2. Build and start the container
+docker-compose up --build
+
+# 3. Watch logs
+docker-compose logs -f
+
+# 4. Stop
+docker-compose down
+```
+
+---
+
+### Local Development without Docker (quick testing only)
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate       # macOS/Linux
+pip install -r requirements.txt
+cp .env.example .env
 python main.py
 ```
+
+---
+
+### Production Deploy — Railway
+
+1. Push the project to a **private** GitHub repository
+2. Go to [railway.app](https://railway.app) → New Project → Deploy from GitHub
+3. Select your repo
+4. In Railway dashboard → **Variables** tab → add all keys from `.env.example`
+5. In Railway dashboard → **Volumes** tab → add a volume mounted at `/app/data`
+6. Railway detects the `Dockerfile` automatically and builds + deploys
+7. Every `git push` to `main` triggers a new deploy automatically
+
+> ⚠️ Never commit `.env` to GitHub. Use Railway's Variables panel for all secrets in production.
 
 ---
 

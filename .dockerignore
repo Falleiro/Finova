@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environment (never copy into Docker)
+.venv/
+venv/
+env/
+
+# Secrets (never copy into Docker)
+.env
+*.env
+
+# Database (use Docker volume instead)
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# Charts temp files
+/tmp/finova_charts/
+
+# Dev / editor
+.git/
+.gitignore
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Tests
+tests/
+pytest.ini
+.coverage
+htmlcov/
+
+# Docs
+*.md
+!CLAUDE.md

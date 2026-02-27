@@ -1,0 +1,40 @@
+# Secrets — NEVER commit these
+.env
+*.env
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Temp chart files
+/tmp/
+
+# Editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Tests
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Logs
+*.log
