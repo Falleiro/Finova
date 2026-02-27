@@ -230,12 +230,14 @@ python main.py
 
 ## 📌 Current Status
 
-- [ ] Project scaffold
-- [ ] Open Finance API client
-- [ ] Telegram bot setup
-- [ ] Daily summary job
-- [ ] Monthly report + charts
-- [ ] Transaction trigger
-- [ ] Investment alert trigger
-- [ ] On-demand query handler
-- [ ] Tests
+- [x] Project scaffold
+- [x] Open Finance API client (`src/open_finance/` — auth, accounts, transactions, investments)
+- [x] Telegram bot layer (`src/telegram/` + `src/agents/`)
+- [x] Database — `src/database/models.py` + `crud.py` (Account, Transaction, Investment + AsyncSessionLocal + init_db)
+- [x] Daily summary — `src/reports/daily.py` → `build_daily_summary()` retorna Markdown
+- [x] Monthly report + charts — `src/reports/monthly.py` + `charts.py` → `build_monthly_report()` retorna `(str, path)`
+- [x] Scheduler — `src/scheduler/runner.py` + `jobs.py` (APScheduler: 8h diário, dia 1 mensal)
+- [x] Transaction trigger — `src/triggers/transaction_watcher.py` (polling 5min, alerta se > threshold)
+- [x] Investment trigger — `src/triggers/investment_watcher.py` (polling 5min, alerta se ±3%)
+- [x] Tests (pytest) — 21/21 passando
+- [ ] Teste end-to-end no Telegram: /start, /saldo, /extrato, /carteira

@@ -21,7 +21,7 @@ class TestIntentClassifier:
 
     def test_unknown_falls_back_to_ajuda(self):
         from src.agents.intent_classifier import classify_intent
-        assert classify_intent("bom dia!") == "ajuda"
+        assert classify_intent("olá tudo bem?") == "ajuda"
 
 
 class TestTransactionWatcher:
@@ -92,7 +92,10 @@ class TestInvestmentWatcher:
         mock_inv = MagicMock()
         mock_inv.alert_triggered = True
         mock_inv.ticker = "PETR4"
+        mock_inv.name = "Petrobras"
         mock_inv.daily_change_pct = 4.5
+        mock_inv.current_price_cents = 3850
+        mock_inv.total_value_cents = 385000
 
         with patch("src.triggers.investment_watcher.fetch_investments", AsyncMock(return_value={
             "error": False,

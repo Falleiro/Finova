@@ -29,7 +29,8 @@ class Settings:
     open_finance_client_id: str = field(default_factory=lambda: _require("OPEN_FINANCE_CLIENT_ID"))
     open_finance_client_secret: str = field(default_factory=lambda: _require("OPEN_FINANCE_CLIENT_SECRET"))
     open_finance_base_url: str = field(default_factory=lambda: _require("OPEN_FINANCE_BASE_URL"))
-    open_finance_consent_token: str = field(default_factory=lambda: _require("OPEN_FINANCE_CONSENT_TOKEN"))
+    open_finance_consent_token: str = field(default_factory=lambda: os.getenv("OPEN_FINANCE_CONSENT_TOKEN", ""))
+    pluggy_item_id: str = field(default_factory=lambda: _require("PLUGGY_ITEM_ID_MEU_PLUGGY"))
 
     # App behaviour
     timezone: str = field(default_factory=lambda: os.getenv("TIMEZONE", "America/Sao_Paulo"))

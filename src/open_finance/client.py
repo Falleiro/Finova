@@ -32,15 +32,14 @@ class OpenFinanceClient:
         async with httpx.AsyncClient(timeout=15) as client:
             try:
                 response = await client.post(
-                    f"{self._base_url}/auth/token",
-                    data={
-                        "grant_type": "client_credentials",
-                        "client_id": self._client_id,
-                        "client_secret": self._client_secret,
+                    f"{self._base_url}/auth",
+                    json={
+                        "clientId": self._client_id,
+                        "clientSecret": self._client_secret,
                     },
                 )
                 response.raise_for_status()
-                self._access_token = response.json()["access_token"]
+                self._access_token = response.json()["apiKey"]
                 return self._access_token
             except httpx.HTTPError as exc:
                 logger.error("Failed to obtain access token: %s", exc)
@@ -50,8 +49,7 @@ class OpenFinanceClient:
         token = await self._get_access_token()
         headers = {
             **_BASE_HEADERS,
-            "Authorization": f"Bearer {token}",
-            "x-consent-token": self._consent_token,
+            "X-API-KEY": token,
         }
         async with httpx.AsyncClient(timeout=30) as client:
             try:
