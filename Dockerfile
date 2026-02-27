@@ -32,8 +32,8 @@ USER finova
 # Copy source code
 COPY --chown=finova:finova . .
 
-# SQLite database volume mount point
-VOLUME ["/app/data"]
+# Ensure data directory exists (volume is mounted by Railway externally)
+RUN mkdir -p /app/data
 
 # Health check — verifies the process is alive
 HEALTHCHECK --interval=60s --timeout=10s --start-period=30s --retries=3 \
