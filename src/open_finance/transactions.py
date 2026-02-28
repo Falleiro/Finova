@@ -33,7 +33,11 @@ async def fetch_transactions(days: int = 1) -> dict:
             for item in data.get("results", []):
                 amount_cents = int(round(float(item.get("amount", 0)) * 100))
                 description = item.get("description", "")
-                merchant = item.get("merchant") or None
+                merchant_raw = item.get("merchant")
+                if isinstance(merchant_raw, dict):
+                    merchant = merchant_raw.get("businessName") or merchant_raw.get("name") or None
+                else:
+                    merchant = merchant_raw or None
                 category = classify_transaction(description, merchant)
                 raw_date = item.get("date", item.get("timestamp", ""))
                 try:
