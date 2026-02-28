@@ -1,7 +1,22 @@
 {
   "permissions": {
     "allow": [
-      "Bash(test -d \"c:/Users/Caio Falleiro/Documents/finance agent\")"
+      "Bash(test -d \"c:/Users/Caio Falleiro/Documents/finance agent\")",
+      "WebFetch(domain:pluggy.ai)",
+      "WebFetch(domain:docs.pluggy.ai)",
+      "WebFetch(domain:pluggy.dev)",
+      "WebFetch(domain:app.pluggy.ai)",
+      "WebFetch(domain:www.pluggy.ai)",
+      "WebFetch(domain:api.pluggy.ai)",
+      "WebFetch(domain:pluggy.com.br)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:developer.pluggy.ai)",
+      "WebFetch(domain:pypi.org)",
+      "Bash(.venv/Scripts/python -m pytest --version)",
+      "Bash(.venv/Scripts/pip install pytest==8.3.4 pytest-asyncio==0.24.0 --quiet)",
+      "Bash(.venv/Scripts/python -m pytest tests/ -v)",
+      "Bash(.venv/Scripts/python -c \"import sqlalchemy; print\\(sqlalchemy.__version__\\)\")",
+      "Bash(.venv/Scripts/pip install \"SQLAlchemy>=2.0.38\" --quiet)"
     ]
   }
 }
