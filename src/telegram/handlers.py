@@ -3,6 +3,8 @@ Telegram message handlers — intent routing for user commands and free text.
 """
 
 import logging
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from telegram import Update
 from telegram.ext import ContextTypes
@@ -18,11 +20,24 @@ def _is_authorized(update: Update) -> bool:
     return str(update.effective_chat.id) == settings.telegram_chat_id
 
 
+def _get_greeting() -> str:
+    hour = datetime.now(ZoneInfo("America/Sao_Paulo")).hour
+    if 5 <= hour < 12:
+        return "Bom dia"
+    elif 12 <= hour < 18:
+        return "Boa tarde"
+    elif 18 <= hour < 24:
+        return "Boa noite"
+    else:
+        return "Boa madrugada"
+
+
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not _is_authorized(update):
         return
+    greeting = _get_greeting()
     await update.message.reply_text(
-        "Oi! Sou o *FINOVA*, seu assistente financeiro pessoal.\n\n"
+        f"{greeting}! Sou o *FINOVA*, seu assistente financeiro pessoal.\n\n"
         "Use /ajuda para ver o que posso fazer por você.",
         parse_mode="Markdown",
     )
